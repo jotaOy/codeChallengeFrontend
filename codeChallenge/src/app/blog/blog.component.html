@@ -1,0 +1,112 @@
+<h1 style="text-align: center !important;">Hodinkee</h1>
+
+<p-tabView>
+    <p-tabPanel header="Local" leftIcon="pi-desktop">
+        <div>
+            <button pButton type="button" label="Add Item" (click)="openDialog()" style="margin-bottom: 10px !important;"></button>
+        </div>
+        <div>
+            <p-contextMenu #cm [model]="cmItems"></p-contextMenu>
+            <p-table [value]="lstBlogItems" [paginator]="true" [rows]="25" [scrollable]="true" 
+            selectionMode="single" styleClass="p-datatable-responsive-demo">
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td> 
+                            <h1 style="text-align: left; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif;">{{item.title}}</h1> <br>
+                            <span style="font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: justify;">{{item.content}}</span> <br>
+                            <span style="font-style: italic; font-size: 75%; font-family: Georgia, 'Times New Roman', Times, serif;">
+                                Published At: {{item.publishedAt}} By: Local
+                            </span>
+                        </td>
+                        <td style="width: 40%;">
+                            <img [src]=item.image> <br>
+                            <button pButton type="button" icon="pi pi-pencil" iconPos="left" class="p-button-raised p-button-rounded" (click)="openDialogToEdit(item)"></button>
+                            <button pButton type="button" icon="pi pi-times" iconPos="left" class="p-button-raised p-button-rounded" (click)="deleteItem(item)"></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 60%;"></td>
+                        <td style="width: 40%;">
+                            
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="Remote" leftIcon="pi-cloud">
+        <p-table [value]="lstBlogRemoteItems" [paginator]="true" [rows]="25" [scrollable]="true"
+        styleClass="p-datatable-responsive-demo">
+            <ng-template pTemplate="body" let-item>
+                <tr (click)="openRemoteLink(item.url)">
+                    <td> 
+                        <h1 style="text-align: left; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif;">{{item.title}}</h1> <br>
+                        <span style="font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: justify;">{{item.content}}</span> <br>
+                        <span style="font-style: italic; font-size: 75%; font-family: Georgia, 'Times New Roman', Times, serif;">
+                            Published At: {{item.publishedAt}} By: <a href="item.source.url">{{item.source.name}}</a>
+                        </span>
+                    </td>
+                    <td style="width: 40%;"><img [src]=item.image></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-tabPanel>
+    <p-tabPanel header="Remote +" leftIcon="pi-cloud">
+        <p-table [value]="lstBlogRemotePlusItems" [paginator]="true" [rows]="25"  [scrollable]="true"
+        styleClass="p-datatable-responsive-demo">
+            <ng-template pTemplate="body" let-item>
+                <tr (click)="openRemoteLink(item.url)">
+                    <td> 
+                        <h1 style="text-align: left; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif;">{{item.title}}</h1> <br>
+                        <span style="font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: justify;">{{item.content}}</span> <br>
+                        <span style="font-style: italic; font-size: 75%; font-family: Georgia, 'Times New Roman', Times, serif;">
+                            Published At: {{item.publishedAt}} By: <a href="item.source.url">{{item.source.name}}</a>
+                        </span>
+                    </td>
+                    <td style="width: 40%;"><img [src]=item.image></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-tabPanel>
+</p-tabView>
+
+<p-dialog [(visible)]="showAddDialog" [style]="{width: '75vw'}" [draggable]="true" [maximizable]="true" [modal]="true">
+    <div class="p-grid ui-fluid">
+        <div class="p-col-3" style="text-align: right;">
+            <label for="tit">Title</label>
+        </div>
+        <div class="p-col-9">
+            <input #tit="ngModel" pInputText name="tit"
+            [(ngModel)]="title" required minlength="1" maxlength="100" style="width: 100%;">
+        </div>
+        <div class="p-col-3" style="text-align: right;">
+            <label for="desc">Description</label>
+        </div>
+        <div class="p-col-9">
+            <input #desc="ngModel" pInputText name="desc"
+            [(ngModel)]="description" required minlength="1" maxlength="500" style="width: 100%;">
+        </div>
+        <div class="p-col-3" style="text-align: right;">
+            <label for="cont">Content</label>
+        </div>
+        <div class="p-col-9">
+            <input #cont="ngModel" pInputText name="cont"
+            [(ngModel)]="content" required minlength="1" maxlength="500" style="width: 100%;">
+        </div>
+        <div class="p-col-3" style="text-align: right;">
+            <label for="urllnk">Url link</label>
+        </div>
+        <div class="p-col-9">
+            <input #urllnk="ngModel" pInputText name="urllnk"
+            [(ngModel)]="urlLink" required minlength="1" maxlength="1000" style="width: 100%;">
+        </div>
+        <div class="p-col-4"></div>
+        <div class="p-col-2">
+            <button pButton type="button" (click)="addBlogItem()" label="Save" icon="pi pi-save"></button>
+        </div>
+        <div class="p-col-2">
+            <button pButton type="button" (click)="closeDialog()" label="Cancel" icon="pi pi-times"></button>
+        </div>
+        <div class="p-col-4"></div>
+    </div>
+</p-dialog>
